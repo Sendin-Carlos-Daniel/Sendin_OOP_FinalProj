@@ -1,0 +1,126 @@
+import java.util.Scanner;
+
+// Abstraction: Abstract class defines the structure for all conservation challenges
+abstract class ConservationChallenge101 {
+    private double dailyGoal; // Encapsulation: Private field
+    private double totalUsage; // Encapsulation: Private field
+
+    // Constructor
+    public ConservationChallenge101(double dailyGoal) {
+        this.dailyGoal = dailyGoal;
+        this.totalUsage = 0;
+    }
+
+    // Getters and Setters for encapsulation
+    public double getDailyGoal() {
+        return dailyGoal;
+    }
+
+    public void setDailyGoal(double dailyGoal) {
+        this.dailyGoal = dailyGoal;
+    }
+
+    public double getTotalUsage() {
+        return totalUsage;
+    }
+
+    public void addUsage(double usage) {
+        this.totalUsage += usage;
+    }
+
+    // Abstract method for displaying tips
+    public abstract void displayTips();
+
+    // Method to display progress
+    public void showProgress() {
+        System.out.println("\n=== Progress Report ===");
+        System.out.println("Total water used: " + totalUsage + " liters");
+        if (totalUsage <= dailyGoal) {
+            System.out.println("Great job! You are within your daily goal of " + dailyGoal + " liters.");
+        } else {
+            System.out.println("You exceeded your daily goal of " + dailyGoal + " liters. Let's try to conserve more tomorrow!");
+        }
+        System.out.println();
+    }
+}
+
+// Inheritance: Subclass for water conservation
+class WaterConservation extends ConservationChallenge101 {
+    // Constructor
+    public WaterConservation(double dailyGoal) {
+        super(dailyGoal);
+    }
+
+    // Polymorphism: Implementing abstract method
+    @Override
+    public void displayTips() {
+        System.out.println("\n=== Water-Saving Tips ===");
+        System.out.println("1. Turn off the tap while brushing your teeth.");
+        System.out.println("2. Fix leaks to prevent water wastage.");
+        System.out.println("3. Use a bucket instead of a hose for washing cars.");
+        System.out.println("4. Install water-efficient fixtures.");
+        System.out.println("5. Collect rainwater for non-potable uses.\n");
+    }
+}
+
+public class ConservationCh101 {
+    public static void main(String[] args) {
+        Scanner cd = new Scanner(System.in);
+
+        // Initialize the conservation challenge with a default goal
+        WaterConservation challenge = new WaterConservation(100);
+
+        System.out.println("=== Water Conservation Challenge ===");
+        System.out.println("Track your daily water usage and learn tips to save water.\n");
+
+        boolean exit = false;
+
+        while (!exit) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Set your daily water usage goal");
+            System.out.println("2. Log today's water usage");
+            System.out.println("3. View total water usage and goal progress");
+            System.out.println("4. Get water-saving tips");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = cd.nextInt();
+            cd.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("\nEnter your new daily water usage goal (in liters): ");
+                    double newGoal = cd.nextDouble();
+                    challenge.setDailyGoal(newGoal);
+                    System.out.println("Your daily goal has been set to " + challenge.getDailyGoal() + " liters.\n");
+                    break;
+
+                case 2:
+                    System.out.print("\nEnter the amount of water you used today (in liters): ");
+                    double waterUsed = cd.nextDouble();
+                    challenge.addUsage(waterUsed);
+                    System.out.println("You logged " + waterUsed + " liters. Keep it up!\n");
+                    break;
+
+                case 3:
+                    challenge.showProgress();
+                    break;
+
+                case 4:
+                    challenge.displayTips();
+                    break;
+
+                case 5:
+                    System.out.println("\nThank you for participating in the Water Conservation Challenge. Keep saving water!");
+                    exit = true;
+                    break;
+
+                default:
+                    System.out.println("\nInvalid choice. Please try again.\n");
+                    break;
+            }
+        }
+
+        cd.close();
+    }
+}
